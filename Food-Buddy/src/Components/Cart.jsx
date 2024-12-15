@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoCloseSharp } from "react-icons/io5";
+import { IoCart } from "react-icons/io5";
 import ItemCard from './ItemCard';
+import { useSelector } from 'react-redux';
+
 
 function Cart() {
+
+  const [activeCart,setActiveCart] = useState(true)
+
+  const cartItems = useSelector((state)=> state.cart.cart)
+  console.log(cartItems);
+  
   return (
     <>
-    <div className='fixed right-0 top-0 lg:w-[23vw] w-full h-full p-5 bg-white mb-3 rounded-lg'>
-        <div className='flex justify-between  items-center my-3' >
-            <span className='text-xl font-bold text-gray-800'>My Order</span>
-            <IoCloseSharp className='border-2 border-gray-600 hover:text-red-600 hover:border-red-600 rounded-md cursor-pointer'/>
+    <div className={`fixed right-0 top-0 lg:w-[23vw] w-full h-full p-5 bg-white ${activeCart ? "translate-x-0": "translate-x-full"} transition-all duration-500 z-50`}>
+        <div className='flex justify-between  items-center my-2 ' >
+            <span className='text-xl font-bold text-gray-800 mb-3'>My Order</span>
+            <IoCloseSharp onClick={()=> setActiveCart(!activeCart)} className='border-2 border-gray-600 hover:text-red-600 hover:border-red-600 rounded-md cursor-pointer mb-3'/>
         </div>
         <ItemCard />
         <ItemCard />
@@ -20,6 +29,7 @@ function Cart() {
             <button className='bg-green-600 font-bold text-white p-2 rounded-md w-[90vw] lg:w-[18vw]'>Checkout</button>
         </div>
     </div>
+    <IoCart onClick={()=> setActiveCart(!activeCart)} className='bg-white rounded-full p-2 text-5xl shadow-md fixed bottom-10 right-4 ' />
     </>
   )
 }
